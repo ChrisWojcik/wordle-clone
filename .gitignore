@@ -1,0 +1,11 @@
+node_modules/
+coverage/
+.eslintcache
+.idea/
+.vscode/
+.DS_Store
+*.tgz
+npm-debug.log*
+.env
+*.crt
+*.key

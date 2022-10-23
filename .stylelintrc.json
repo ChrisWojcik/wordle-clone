@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-config-idiomatic-order",
+    "stylelint-config-prettier"
+  ],
+  "rules": {
+    "selector-max-id": 1,
+    "max-nesting-depth": 3,
+    "rule-empty-line-before": [
+      "always",
+      { "except": ["after-single-line-comment", "first-nested"] }
+    ],
+    "order/properties-alphabetical-order": null,
+    "selector-class-pattern": null
+  }
+}
