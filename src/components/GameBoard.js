@@ -6,7 +6,7 @@ export const GameBoard = forwardRef(function GameBoard(props, ref) {
   const { board } = useContext(GameStateContext);
 
   return (
-    <div className="game-board" ref={ref}>
+    <div className="game-board" ref={ref} {...props}>
       <div className="game-board__guesses">
         {board.map((guess, guessNumber) => (
           <div className="game-board__guess" key={`guess-${guessNumber}`}>

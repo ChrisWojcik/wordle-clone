@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { GameStateProvider } from './components/GameStateProvider';
 import { GameBoard } from './components/GameBoard';
 import { Keyboard } from './components/KeyBoard';
@@ -15,6 +15,8 @@ export function App() {
   const $navBar = useRef(null);
   const $gameBoard = useRef(null);
   const $keyboard = useRef(null);
+
+  const [gameReady, setGameReady] = useState(false);
 
   useEffect(() => {
     const onResize = debounce(function onResize() {
@@ -48,7 +50,8 @@ export function App() {
       );
       $gameBoard.current.style.setProperty('--tile-size', tileSize + 'px');
       $gameBoard.current.style.setProperty('--tile-gap', TILE_GAP + 'px');
-      $gameBoard.current.style.visibility = 'visible';
+
+      setGameReady(true);
 
       function calculateTileSize(height, rows, gap) {
         return (height - (rows - 1) * gap) / rows;
@@ -67,7 +70,7 @@ export function App() {
     <GameStateProvider>
       <NavBar ref={$navBar} />
       <main>
-        <GameBoard ref={$gameBoard} />
+        <GameBoard ref={$gameBoard} hidden={!gameReady} />
         <Keyboard ref={$keyboard} />
         <Toasts />
       </main>
