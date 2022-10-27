@@ -6,4 +6,5 @@ export const GameStateContext = createContext({
   typeLetter: () => {},
   backspace: () => {},
   submitGuess: () => {},
+  removeToast: () => {},
 });

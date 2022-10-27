@@ -1,4 +1,9 @@
-import { TYPE_LETTER, BACKSPACE, SUBMIT_GUESS } from './actionTypes';
+import {
+  TYPE_LETTER,
+  BACKSPACE,
+  SUBMIT_GUESS,
+  REMOVE_TOAST,
+} from './actionTypes';
 import {
   NUM_GUESSES,
   LETTERS_PER_WORD,
@@ -50,6 +55,7 @@ export const initialGameState = {
     (result, letter) => ({ ...result, [letter]: undefined }),
     {}
   ),
+  toasts: [],
   status: IN_PROGRESS,
 };
 
@@ -61,6 +67,8 @@ export function reducer(state, action) {
       return handleBackspace(state, action);
     case SUBMIT_GUESS:
       return handleSubmitGuess(state, action);
+    case REMOVE_TOAST:
+      return handleRemoveToast(state, action);
     default:
       return state;
   }
@@ -129,19 +137,29 @@ export function handleBackspace(state) {
 }
 
 export function handleSubmitGuess(state) {
-  const { board, cursor, letterEvaluations, status, wordOfTheDay } = state;
+  const { board, cursor, letterEvaluations, status, wordOfTheDay, toasts } =
+    state;
   const [guessNumber, tileNumber] = cursor;
 
   if (status !== IN_PROGRESS) {
     return state;
   }
 
+  if (tileNumber < LETTERS_PER_WORD) {
+    return {
+      ...state,
+      toasts: [createToast('Not enough letters'), ...toasts],
+    };
+  }
+
   if (tileNumber === LETTERS_PER_WORD) {
     const guessedWord = board[guessNumber].map((tile) => tile.letter).join('');
 
     if (!isInWordList(guessedWord)) {
-      alert('Not in word list!');
-      return state;
+      return {
+        ...state,
+        toasts: [createToast('Not in word list'), ...toasts],
+      };
     }
 
     const tileEvaluations = getTileEvaluations(guessedWord, wordOfTheDay);
@@ -163,14 +181,24 @@ export function handleSubmitGuess(state) {
     });
 
     let updatedStatus = status;
+    let updatedToasts = toasts;
 
     if (guessedWord === wordOfTheDay) {
-      alert('You Won!');
+      const winMessages = [
+        'Genius',
+        'Magnificent',
+        'Impressive',
+        'Splendid',
+        'Great',
+        'Phew',
+      ];
+
+      updatedToasts = [createToast(winMessages[guessNumber], 2000), ...toasts];
       updatedStatus = WON;
     }
 
     if (updatedCursor[0] === NUM_GUESSES && guessedWord !== wordOfTheDay) {
-      alert('You Lost!');
+      updatedToasts = [createToast(wordOfTheDay.toUpperCase(), -1), ...toasts];
       updatedStatus = LOST;
     }
 
@@ -179,10 +207,20 @@ export function handleSubmitGuess(state) {
       board,
       cursor: updatedCursor,
       status: updatedStatus,
+      toasts: updatedToasts,
     };
   }
 
   return state;
+}
+
+function handleRemoveToast(state, action) {
+  const { id } = action.data;
+
+  return {
+    ...state,
+    toasts: state.toasts.filter((toast) => toast.id !== id),
+  };
 }
 
 function initializeBoard(numGuesses, lettersPerWord) {
@@ -220,4 +258,11 @@ function getTileEvaluations(guess, answer) {
   });
 
   return tileEvaluations;
+}
+
+const AUTOHIDE_TIMEOUT = 1000;
+let toastUid = 0;
+
+function createToast(message, timeout = AUTOHIDE_TIMEOUT) {
+  return { message, id: toastUid++, timeout };
 }

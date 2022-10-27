@@ -3,6 +3,7 @@ import { GameStateProvider } from './components/GameStateProvider';
 import { GameBoard } from './components/GameBoard';
 import { Keyboard } from './components/KeyBoard';
 import { NavBar } from './components/NavBar';
+import { Toasts } from './components/Toasts';
 import {
   LETTERS_PER_WORD,
   NUM_GUESSES,
@@ -68,6 +69,7 @@ export function App() {
       <main>
         <GameBoard ref={$gameBoard} />
         <Keyboard ref={$keyboard} />
+        <Toasts />
       </main>
     </GameStateProvider>
   );

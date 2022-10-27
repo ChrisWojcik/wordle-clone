@@ -2,6 +2,7 @@
 
 $color-white: #fff;
 $color-black: #000;
+$color-off-black: #121212;
 $color-light-gray: #d3d6da;
 $color-dark-gray: #878a8c;
 $color-correct: #6aaa64;
@@ -227,5 +228,32 @@ main {
     width: 24px;
     height: 24px;
     fill: currentcolor;
+  }
+}
+
+.toasts {
+  position: absolute;
+  top: 45px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.toast {
+  position: relative;
+  margin: 16px;
+  background-color: $color-off-black;
+  color: $color-white;
+  padding: 13px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+
+  &--exit-active {
+    opacity: 0;
+    transition: opacity 300ms cubic-bezier(0.645, 0.045, 0.355, 1);
   }
 }

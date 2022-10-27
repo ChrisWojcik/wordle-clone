@@ -1,5 +1,10 @@
 import React, { useReducer, useCallback, useMemo } from 'react';
-import { TYPE_LETTER, BACKSPACE, SUBMIT_GUESS } from './actionTypes';
+import {
+  TYPE_LETTER,
+  BACKSPACE,
+  SUBMIT_GUESS,
+  REMOVE_TOAST,
+} from './actionTypes';
 import { reducer, initialGameState } from './reducer';
 import { GameStateContext } from './GameStateContext';
 
@@ -21,8 +26,16 @@ export function GameStateProvider(props) {
     dispatch({ type: SUBMIT_GUESS });
   }, [dispatch]);
 
+  const removeToast = useCallback(
+    (id) => {
+      dispatch({ type: REMOVE_TOAST, data: { id } });
+    },
+    [dispatch]
+  );
+
   const contextValue = useMemo(() => {
-    const { wordOfTheDay, board, cursor, letterEvaluations, status } = state;
+    const { wordOfTheDay, board, cursor, letterEvaluations, status, toasts } =
+      state;
 
     return {
       wordOfTheDay,
@@ -30,11 +43,13 @@ export function GameStateProvider(props) {
       cursor,
       letterEvaluations,
       status,
+      toasts,
       typeLetter,
       backspace,
       submitGuess,
+      removeToast,
     };
-  }, [state, typeLetter, backspace, submitGuess]);
+  }, [state, typeLetter, backspace, submitGuess, removeToast]);
 
   return (
     <GameStateContext.Provider value={contextValue}>
