@@ -28,9 +28,9 @@ html {
   height: 100%;
   cursor: default;
   overflow-wrap: break-word;
+  overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
   text-size-adjust: 100%;
-  overflow-x: hidden;
 }
 
 body {
@@ -94,10 +94,10 @@ main {
 
 .game-board__guesses {
   display: grid;
-  grid-gap: var(--tile-gap);
-  grid-template-rows: repeat(#{$num-guesses}, 1fr);
   width: 100%;
   max-width: var(--game-board-width);
+  grid-gap: var(--tile-gap);
+  grid-template-rows: repeat(#{$num-guesses}, 1fr);
 }
 
 @keyframes guess-shake {
@@ -105,15 +105,18 @@ main {
   90% {
     transform: translateX(-1px);
   }
+
   20%,
   80% {
     transform: translateX(2px);
   }
+
   30%,
   50%,
   70% {
     transform: translateX(-4px);
   }
+
   40%,
   60% {
     transform: translateX(4px);
@@ -128,8 +131,8 @@ main {
   grid-template-columns: repeat(#{$letters-per-word}, 1fr);
 
   &--invalid {
-    animation-name: guess-shake;
     animation-duration: 0.6s;
+    animation-name: guess-shake;
   }
 }
 
@@ -138,22 +141,24 @@ main {
   width: 100%;
   height: 0;
   padding-bottom: 100%;
-  transform-style: preserve-3d;
   perspective: 1000px;
+  transform-style: preserve-3d;
 }
 
 @keyframes tile-pending {
   from {
-    transform: scale(0.8);
     opacity: 0;
+    transform: scale(0.8);
   }
+
   40% {
+    opacity: 1;
     transform: scale(1.1);
-    opacity: 1;
   }
+
   to {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -199,6 +204,24 @@ main {
     animation: 0.1s tile-pending;
   }
 
+  &--state-correct {
+    border-color: $color-correct;
+    background-color: $color-correct;
+    color: $color-white;
+  }
+
+  &--state-present {
+    border-color: $color-present;
+    background-color: $color-present;
+    color: $color-white;
+  }
+
+  &--state-absent {
+    border-color: $color-absent;
+    background-color: $color-absent;
+    color: $color-white;
+  }
+
   &--state-correct,
   &--state-present,
   &--state-absent {
@@ -229,24 +252,6 @@ main {
       transition: border-color 0s linear 1.65s, background-color 0s linear 1.65s,
         color 0s linear 1.65s;
     }
-  }
-
-  &--state-correct {
-    border-color: $color-correct;
-    background-color: $color-correct;
-    color: $color-white;
-  }
-
-  &--state-present {
-    border-color: $color-present;
-    background-color: $color-present;
-    color: $color-white;
-  }
-
-  &--state-absent {
-    border-color: $color-absent;
-    background-color: $color-absent;
-    color: $color-white;
   }
 }
 
@@ -335,23 +340,23 @@ main {
 
 .toasts {
   position: absolute;
+  z-index: 1000;
   top: 45px;
   left: 50%;
-  transform: translate(-50%, 0);
   pointer-events: none;
-  z-index: 1000;
+  transform: translate(-50%, 0);
 }
 
 .toast {
   position: relative;
-  margin: 16px;
-  background-color: $color-off-black;
-  color: $color-white;
   padding: 13px;
   border: none;
   border-radius: 4px;
-  font-weight: 700;
+  margin: 16px;
+  background-color: $color-off-black;
+  color: $color-white;
   font-size: 14px;
+  font-weight: 700;
   line-height: 16px;
 
   &--exit-active {

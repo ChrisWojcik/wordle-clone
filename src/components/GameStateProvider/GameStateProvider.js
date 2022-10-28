@@ -4,6 +4,7 @@ import {
   BACKSPACE,
   SUBMIT_GUESS,
   REMOVE_TOAST,
+  ADD_TOAST,
 } from './actionTypes';
 import { reducer, initialGameState } from './reducer';
 import { GameStateContext } from './GameStateContext';
@@ -33,6 +34,13 @@ export function GameStateProvider(props) {
     [dispatch]
   );
 
+  const addToast = useCallback(
+    (message, timeout) => {
+      dispatch({ type: ADD_TOAST, data: { message, timeout } });
+    },
+    [dispatch]
+  );
+
   const contextValue = useMemo(() => {
     const {
       wordOfTheDay,
@@ -56,8 +64,9 @@ export function GameStateProvider(props) {
       backspace,
       submitGuess,
       removeToast,
+      addToast,
     };
-  }, [state, typeLetter, backspace, submitGuess, removeToast]);
+  }, [state, typeLetter, backspace, submitGuess, removeToast, addToast]);
 
   return (
     <GameStateContext.Provider value={contextValue}>

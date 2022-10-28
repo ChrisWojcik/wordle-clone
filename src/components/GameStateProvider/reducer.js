@@ -3,10 +3,12 @@ import {
   BACKSPACE,
   SUBMIT_GUESS,
   REMOVE_TOAST,
+  ADD_TOAST,
 } from './actionTypes';
 import {
   NUM_GUESSES,
   LETTERS_PER_WORD,
+  ALPHABET,
   PENDING,
   ABSENT,
   CORRECT,
@@ -18,41 +20,12 @@ import {
 import { getWordOfTheDay } from '../../util/getWordOfTheDay';
 import { isInWordList } from '../../util/isInWordList';
 
-const alphabet = [
-  'a',
-  'b',
-  'c',
-  'd',
-  'e',
-  'f',
-  'g',
-  'h',
-  'i',
-  'j',
-  'k',
-  'l',
-  'm',
-  'n',
-  'o',
-  'p',
-  'q',
-  'r',
-  's',
-  't',
-  'u',
-  'v',
-  'w',
-  'x',
-  'y',
-  'z',
-];
-
 export const initialGameState = {
   wordOfTheDay: getWordOfTheDay(),
   board: initializeBoard(NUM_GUESSES, LETTERS_PER_WORD),
   cursor: [0, 0],
   lastGuess: null,
-  letterEvaluations: alphabet.reduce(
+  letterEvaluations: ALPHABET.reduce(
     (result, letter) => ({ ...result, [letter]: undefined }),
     {}
   ),
@@ -70,6 +43,8 @@ export function reducer(state, action) {
       return handleSubmitGuess(state, action);
     case REMOVE_TOAST:
       return handleRemoveToast(state, action);
+    case ADD_TOAST:
+      return handleAddToast(state, action);
     default:
       return state;
   }
@@ -184,24 +159,12 @@ export function handleSubmitGuess(state) {
     });
 
     let updatedStatus = status;
-    let updatedToasts = toasts;
 
     if (guessedWord === wordOfTheDay) {
-      const winMessages = [
-        'Genius',
-        'Magnificent',
-        'Impressive',
-        'Splendid',
-        'Great',
-        'Phew',
-      ];
-
-      updatedToasts = [createToast(winMessages[guessNumber], 2000), ...toasts];
       updatedStatus = WON;
     }
 
     if (updatedCursor[0] === NUM_GUESSES && guessedWord !== wordOfTheDay) {
-      updatedToasts = [createToast(wordOfTheDay.toUpperCase(), -1), ...toasts];
       updatedStatus = LOST;
     }
 
@@ -211,7 +174,6 @@ export function handleSubmitGuess(state) {
       cursor: updatedCursor,
       status: updatedStatus,
       lastGuess: { word: guessedWord, valid: true },
-      toasts: updatedToasts,
     };
   }
 
@@ -224,6 +186,15 @@ function handleRemoveToast(state, action) {
   return {
     ...state,
     toasts: state.toasts.filter((toast) => toast.id !== id),
+  };
+}
+
+function handleAddToast(state, action) {
+  const { message, timeout } = action.data;
+
+  return {
+    ...state,
+    toasts: [createToast(message, timeout), ...state.toasts],
   };
 }
 
