@@ -51,6 +51,7 @@ export const initialGameState = {
   wordOfTheDay: getWordOfTheDay(),
   board: initializeBoard(NUM_GUESSES, LETTERS_PER_WORD),
   cursor: [0, 0],
+  lastGuess: null,
   letterEvaluations: alphabet.reduce(
     (result, letter) => ({ ...result, [letter]: undefined }),
     {}
@@ -145,19 +146,21 @@ export function handleSubmitGuess(state) {
     return state;
   }
 
+  const guessedWord = board[guessNumber].map((tile) => tile.letter).join('');
+
   if (tileNumber < LETTERS_PER_WORD) {
     return {
       ...state,
+      lastGuess: { word: guessedWord, valid: false },
       toasts: [createToast('Not enough letters'), ...toasts],
     };
   }
 
   if (tileNumber === LETTERS_PER_WORD) {
-    const guessedWord = board[guessNumber].map((tile) => tile.letter).join('');
-
     if (!isInWordList(guessedWord)) {
       return {
         ...state,
+        lastGuess: { word: guessedWord, valid: false },
         toasts: [createToast('Not in word list'), ...toasts],
       };
     }
@@ -207,6 +210,7 @@ export function handleSubmitGuess(state) {
       board,
       cursor: updatedCursor,
       status: updatedStatus,
+      lastGuess: { word: guessedWord, valid: true },
       toasts: updatedToasts,
     };
   }

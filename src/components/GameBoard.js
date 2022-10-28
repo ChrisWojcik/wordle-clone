@@ -1,4 +1,4 @@
-import React, { forwardRef, useContext } from 'react';
+import React, { forwardRef, useContext, useRef, useEffect } from 'react';
 import { GameStateContext } from './GameStateProvider';
 import { Tile } from './Tile';
 
@@ -9,22 +9,52 @@ export const GameBoard = forwardRef(function GameBoard(props, ref) {
     <div className="game-board" ref={ref} {...props}>
       <div className="game-board__guesses">
         {board.map((guess, guessNumber) => (
-          <div className="game-board__guess" key={`guess-${guessNumber}`}>
-            {guess.map((tile, tileNumber) => {
-              const { letter, evaluation } = board[guessNumber][tileNumber];
-
-              return (
-                <div
-                  className="game-board__tile"
-                  key={`tile-${guessNumber}-${tileNumber}`}
-                >
-                  <Tile letter={letter} evaluation={evaluation} />
-                </div>
-              );
-            })}
-          </div>
+          <Guess
+            key={`guess-${guessNumber}`}
+            number={guessNumber}
+            tiles={guess}
+          />
         ))}
       </div>
     </div>
   );
 });
+
+function Guess({ number, tiles }) {
+  const isAnimating = useRef(false);
+  const $ref = useRef(null);
+  const { lastGuess, cursor } = useContext(GameStateContext);
+
+  useEffect(() => {
+    if (isAnimating.current) {
+      return;
+    }
+
+    if (cursor[0] === number && lastGuess && !lastGuess.valid) {
+      isAnimating.current = true;
+      $ref.current.classList.add('game-board__guess--invalid');
+
+      setTimeout(() => {
+        $ref.current.classList.remove('game-board__guess--invalid');
+        isAnimating.current = false;
+      }, 500);
+    }
+  }, [lastGuess]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <div className="game-board__guess" ref={$ref}>
+      {tiles.map((tile, tileNumber) => {
+        const { letter, evaluation } = tile;
+
+        return (
+          <div
+            className="game-board__tile"
+            key={`tile-${number}-${tileNumber}`}
+          >
+            <Tile letter={letter} evaluation={evaluation} />
+          </div>
+        );
+      })}
+    </div>
+  );
+}

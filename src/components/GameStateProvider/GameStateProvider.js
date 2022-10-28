@@ -34,8 +34,15 @@ export function GameStateProvider(props) {
   );
 
   const contextValue = useMemo(() => {
-    const { wordOfTheDay, board, cursor, letterEvaluations, status, toasts } =
-      state;
+    const {
+      wordOfTheDay,
+      board,
+      cursor,
+      letterEvaluations,
+      status,
+      lastGuess,
+      toasts,
+    } = state;
 
     return {
       wordOfTheDay,
@@ -43,6 +50,7 @@ export function GameStateProvider(props) {
       cursor,
       letterEvaluations,
       status,
+      lastGuess,
       toasts,
       typeLetter,
       backspace,
