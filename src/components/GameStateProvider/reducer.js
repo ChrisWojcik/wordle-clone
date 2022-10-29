@@ -50,7 +50,7 @@ export function reducer(state, action) {
   }
 }
 
-export function handleTypeLetter(state, action) {
+function handleTypeLetter(state, action) {
   const { letter } = action.data;
   const { board, cursor, status } = state;
   const [guessNumber, tileNumber] = cursor;
@@ -81,7 +81,7 @@ export function handleTypeLetter(state, action) {
   return state;
 }
 
-export function handleBackspace(state) {
+function handleBackspace(state) {
   const { board, cursor, status } = state;
   const [guessNumber, tileNumber] = cursor;
 
@@ -112,7 +112,7 @@ export function handleBackspace(state) {
   return state;
 }
 
-export function handleSubmitGuess(state) {
+function handleSubmitGuess(state) {
   const { board, cursor, letterEvaluations, status, wordOfTheDay, toasts } =
     state;
   const [guessNumber, tileNumber] = cursor;
@@ -121,7 +121,9 @@ export function handleSubmitGuess(state) {
     return state;
   }
 
-  const guessedWord = board[guessNumber].map((tile) => tile.letter).join('');
+  const guessedWord = board[guessNumber]
+    .map((tile) => tile.letter || '')
+    .join('');
 
   if (tileNumber < LETTERS_PER_WORD) {
     return {

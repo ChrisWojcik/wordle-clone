@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import debounce from 'just-debounce-it';
 import { GameStateProvider } from './components/GameStateProvider';
 import { GameBoard } from './components/GameBoard';
 import { Keyboard } from './components/KeyBoard';
@@ -9,7 +10,6 @@ import {
   NUM_GUESSES,
 } from './components/GameStateProvider/constants';
 import { clamp } from './util/clamp';
-import { debounce } from './util/debounce';
 
 export function App() {
   const $navBar = useRef(null);

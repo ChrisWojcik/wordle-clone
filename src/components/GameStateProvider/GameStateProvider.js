@@ -1,11 +1,5 @@
 import React, { useReducer, useCallback, useMemo } from 'react';
-import {
-  TYPE_LETTER,
-  BACKSPACE,
-  SUBMIT_GUESS,
-  REMOVE_TOAST,
-  ADD_TOAST,
-} from './actionTypes';
+import * as actions from './actionCreators';
 import { reducer, initialGameState } from './reducer';
 import { GameStateContext } from './GameStateContext';
 
@@ -14,29 +8,29 @@ export function GameStateProvider(props) {
 
   const typeLetter = useCallback(
     (letter) => {
-      dispatch({ type: TYPE_LETTER, data: { letter } });
+      dispatch(actions.typeLetter(letter));
     },
     [dispatch]
   );
 
   const backspace = useCallback(() => {
-    dispatch({ type: BACKSPACE });
+    dispatch(actions.backspace());
   }, [dispatch]);
 
   const submitGuess = useCallback(() => {
-    dispatch({ type: SUBMIT_GUESS });
+    dispatch(actions.submitGuess());
   }, [dispatch]);
 
   const removeToast = useCallback(
     (id) => {
-      dispatch({ type: REMOVE_TOAST, data: { id } });
+      dispatch(actions.removeToast(id));
     },
     [dispatch]
   );
 
   const addToast = useCallback(
     (message, timeout) => {
-      dispatch({ type: ADD_TOAST, data: { message, timeout } });
+      dispatch(actions.addToast(message, timeout));
     },
     [dispatch]
   );
