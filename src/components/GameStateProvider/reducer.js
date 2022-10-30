@@ -152,11 +152,19 @@ function handleSubmitGuess(state) {
     const updatedCursor = [guessNumber + 1, 0];
 
     board[guessNumber].forEach(({ letter }, index) => {
+      const evaluationOfTile = tileEvaluations[index];
+
       if (letterEvaluations[letter] === CORRECT) {
         return;
       }
 
-      const evaluationOfTile = tileEvaluations[index];
+      if (
+        letterEvaluations[letter] === PRESENT &&
+        evaluationOfTile !== CORRECT
+      ) {
+        return;
+      }
+
       letterEvaluations[letter] = evaluationOfTile;
     });
 

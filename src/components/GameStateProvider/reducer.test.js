@@ -222,6 +222,20 @@ describe(SUBMIT_GUESS, () => {
     expect(state.letterEvaluations['y']).toEqual(PRESENT);
     expect(state.letterEvaluations['k']).toEqual(ABSENT);
 
+    state = { ...cloneDeep(initialGameState), wordOfTheDay: 'mealy' };
+    state = guessAndSubmit(state, 'later');
+    state = guessAndSubmit(state, 'plane');
+    state = guessAndSubmit(state, 'eagle');
+
+    expect(state.letterEvaluations['e']).toEqual(PRESENT);
+    expect(state.letterEvaluations['r']).toEqual(ABSENT);
+    expect(state.letterEvaluations['t']).toEqual(ABSENT);
+    expect(state.letterEvaluations['p']).toEqual(ABSENT);
+    expect(state.letterEvaluations['a']).toEqual(CORRECT);
+    expect(state.letterEvaluations['g']).toEqual(ABSENT);
+    expect(state.letterEvaluations['l']).toEqual(CORRECT);
+    expect(state.letterEvaluations['n']).toEqual(ABSENT);
+
     state = { ...cloneDeep(initialGameState), wordOfTheDay: 'those' };
     state = guessAndSubmit(state, 'geese');
 
