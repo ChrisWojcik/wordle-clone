@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, createRef, forwardRef } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { WON, LOST } from './GameStateProvider/constants';
-import { GameStateContext } from './GameStateProvider';
+import { WON, LOST } from '../GameStateProvider/constants';
+import { GameStateContext } from '../GameStateProvider';
 
 const Toast = forwardRef(function Toast({ message, id, timeout }, ref) {
   const { removeToast } = useContext(GameStateContext);

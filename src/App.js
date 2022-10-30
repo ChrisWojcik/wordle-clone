@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import debounce from 'just-debounce-it';
 import { GameStateProvider } from './components/GameStateProvider';
 import { GameBoard } from './components/GameBoard';
-import { Keyboard } from './components/KeyBoard';
+import { Keyboard } from './components/Keyboard';
 import { NavBar } from './components/NavBar';
 import { Toasts } from './components/Toasts';
 import {

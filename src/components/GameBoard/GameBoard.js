@@ -1,6 +1,6 @@
 import React, { forwardRef, useContext, useRef, useEffect } from 'react';
-import { GameStateContext } from './GameStateProvider';
-import { Tile } from './Tile';
+import { GameStateContext } from '../GameStateProvider';
+import { Tile } from '../Tile';
 
 export const GameBoard = forwardRef(function GameBoard(props, ref) {
   const { board } = useContext(GameStateContext);
@@ -42,7 +42,7 @@ function Guess({ number, tiles }) {
   }, [lastGuess]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="game-board__guess" ref={$ref}>
+    <div className="game-board__guess" ref={$ref} data-testid="guess">
       {tiles.map((tile, tileNumber) => {
         const { letter, evaluation } = tile;
 
@@ -50,6 +50,7 @@ function Guess({ number, tiles }) {
           <div
             className="game-board__tile"
             key={`tile-${number}-${tileNumber}`}
+            data-testid="tile"
           >
             <Tile letter={letter} evaluation={evaluation} />
           </div>
