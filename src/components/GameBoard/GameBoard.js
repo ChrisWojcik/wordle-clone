@@ -50,7 +50,6 @@ function Guess({ number, tiles }) {
           <div
             className="game-board__tile"
             key={`tile-${number}-${tileNumber}`}
-            data-testid="tile"
           >
             <Tile letter={letter} evaluation={evaluation} />
           </div>

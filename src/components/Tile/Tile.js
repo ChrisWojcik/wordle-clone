@@ -6,5 +6,9 @@ export function Tile({ letter, evaluation }) {
     [`tile--state-${evaluation}`]: !!evaluation,
   });
 
-  return <div className={tileClasses}>{letter}</div>;
+  return (
+    <div className={tileClasses} data-testid="tile">
+      {letter}
+    </div>
+  );
 }

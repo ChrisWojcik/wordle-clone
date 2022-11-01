@@ -7,5 +7,6 @@ coverage/
 *.tgz
 npm-debug.log*
 .env
+*.mp4
 *.crt
 *.key
