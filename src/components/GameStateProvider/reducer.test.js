@@ -1,6 +1,14 @@
 import cloneDeep from 'just-clone';
 import { reducer, initialGameState } from './reducer';
-import { WON, LOST, PENDING, CORRECT, PRESENT, ABSENT } from './constants';
+import {
+  WON,
+  LOST,
+  PENDING,
+  CORRECT,
+  PRESENT,
+  ABSENT,
+  MESSAGES,
+} from './constants';
 import {
   ADD_TOAST,
   BACKSPACE,
@@ -138,8 +146,10 @@ describe(SUBMIT_GUESS, () => {
     state = guessAndSubmit(state, 'lat');
 
     expect(state.cursor).toEqual([0, 3]);
-    expect(state.lastGuess).toEqual({ word: 'lat', valid: false });
-    expect(state.toasts[0].message).toEqual('Not enough letters');
+    expect(state.lastGuess).toEqual({
+      word: 'lat',
+      error: MESSAGES.NOT_ENOUGH_LETTERS,
+    });
   });
 
   test('warns the user if the guess was not in the word list', () => {
@@ -148,8 +158,10 @@ describe(SUBMIT_GUESS, () => {
     state = guessAndSubmit(state, 'latrr');
 
     expect(state.cursor).toEqual([0, 5]);
-    expect(state.lastGuess).toEqual({ word: 'latrr', valid: false });
-    expect(state.toasts[0].message).toEqual('Not in word list');
+    expect(state.lastGuess).toEqual({
+      word: 'latrr',
+      error: MESSAGES.NOT_IN_WORD_LIST,
+    });
   });
 
   test('correctly evaluates letters in the guessed word', () => {

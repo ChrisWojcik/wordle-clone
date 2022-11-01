@@ -4,6 +4,7 @@ import { render, screen, getAllByTestId } from '@testing-library/react';
 import { GameStateContext } from '../GameStateProvider';
 import { initialGameState } from '../GameStateProvider/reducer';
 import { GameBoard } from './GameBoard';
+import { MESSAGES } from '../GameStateProvider/constants';
 
 jest.useFakeTimers();
 
@@ -30,7 +31,7 @@ test('marks a guess as invalid after it has been submited', () => {
   const mockedContext = {
     ...cloneDeep(initialGameState),
     cursor: [0, 0],
-    lastGuess: { word: 'later', invalid: true },
+    lastGuess: { word: 'latrr', error: MESSAGES.NOT_IN_WORD_LIST },
   };
 
   render(

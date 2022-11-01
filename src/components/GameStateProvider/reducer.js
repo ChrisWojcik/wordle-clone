@@ -16,6 +16,7 @@ import {
   IN_PROGRESS,
   WON,
   LOST,
+  MESSAGES,
 } from './constants';
 import { getWordOfTheDay } from '../../util/getWordOfTheDay';
 import { isInWordList } from '../../util/isInWordList';
@@ -113,8 +114,7 @@ function handleBackspace(state) {
 }
 
 function handleSubmitGuess(state) {
-  const { board, cursor, letterEvaluations, status, wordOfTheDay, toasts } =
-    state;
+  const { board, cursor, letterEvaluations, status, wordOfTheDay } = state;
   const [guessNumber, tileNumber] = cursor;
 
   if (status !== IN_PROGRESS) {
@@ -128,8 +128,7 @@ function handleSubmitGuess(state) {
   if (tileNumber < LETTERS_PER_WORD) {
     return {
       ...state,
-      lastGuess: { word: guessedWord, valid: false },
-      toasts: [createToast('Not enough letters'), ...toasts],
+      lastGuess: { word: guessedWord, error: MESSAGES.NOT_ENOUGH_LETTERS },
     };
   }
 
@@ -137,8 +136,7 @@ function handleSubmitGuess(state) {
     if (!isInWordList(guessedWord)) {
       return {
         ...state,
-        lastGuess: { word: guessedWord, valid: false },
-        toasts: [createToast('Not in word list'), ...toasts],
+        lastGuess: { word: guessedWord, error: MESSAGES.NOT_IN_WORD_LIST },
       };
     }
 
@@ -183,7 +181,7 @@ function handleSubmitGuess(state) {
       board,
       cursor: updatedCursor,
       status: updatedStatus,
-      lastGuess: { word: guessedWord, valid: true },
+      lastGuess: { word: guessedWord },
     };
   }
 
@@ -199,12 +197,18 @@ function handleRemoveToast(state, action) {
   };
 }
 
+const DEFAULT_AUTOHIDE_TIMEOUT = 1000;
+let toastUid = 0;
+
 function handleAddToast(state, action) {
   const { message, timeout } = action.data;
 
   return {
     ...state,
-    toasts: [createToast(message, timeout), ...state.toasts],
+    toasts: [
+      { message, id: toastUid++, timeout: timeout || DEFAULT_AUTOHIDE_TIMEOUT },
+      ...state.toasts,
+    ],
   };
 }
 
@@ -243,11 +247,4 @@ function getTileEvaluations(guess, answer) {
   });
 
   return tileEvaluations;
-}
-
-const AUTOHIDE_TIMEOUT = 1000;
-let toastUid = 0;
-
-function createToast(message, timeout = AUTOHIDE_TIMEOUT) {
-  return { message, id: toastUid++, timeout };
 }

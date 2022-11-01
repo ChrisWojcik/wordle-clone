@@ -30,7 +30,7 @@ function Guess({ number, tiles }) {
       return;
     }
 
-    if (cursor[0] === number && lastGuess && !lastGuess.valid) {
+    if (cursor[0] === number && lastGuess && lastGuess.error) {
       isAnimating.current = true;
       $ref.current.classList.add('game-board__guess--invalid');
 

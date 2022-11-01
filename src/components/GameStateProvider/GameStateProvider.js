@@ -1,7 +1,8 @@
-import React, { useReducer, useCallback, useMemo } from 'react';
+import React, { useReducer, useEffect, useCallback, useMemo } from 'react';
 import * as actions from './actionCreators';
 import { reducer, initialGameState } from './reducer';
 import { GameStateContext } from './GameStateContext';
+import { WON, LOST, MESSAGES } from './constants';
 
 export function GameStateProvider(props) {
   const [state, dispatch] = useReducer(reducer, initialGameState);
@@ -34,6 +35,28 @@ export function GameStateProvider(props) {
     },
     [dispatch]
   );
+
+  useEffect(() => {
+    const ANIMATION_DELAY = 2000;
+
+    if (state.status === WON) {
+      setTimeout(() => {
+        addToast(MESSAGES.WIN[state.cursor[0] - 1], 1500);
+      }, ANIMATION_DELAY);
+    }
+
+    if (state.status === LOST) {
+      setTimeout(() => {
+        addToast(state.wordOfTheDay.toUpperCase(), -1);
+      }, ANIMATION_DELAY);
+    }
+  }, [state.status, addToast]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (state.lastGuess && state.lastGuess.error) {
+      addToast(state.lastGuess.error);
+    }
+  }, [state.lastGuess, addToast]);
 
   const contextValue = useMemo(() => {
     const {

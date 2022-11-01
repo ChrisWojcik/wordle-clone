@@ -40,3 +40,10 @@ export const CORRECT = 'correct';
 export const IN_PROGRESS = 'IN_PROGRESS';
 export const WON = 'WON';
 export const LOST = 'LOST';
+
+// toast messages
+export const MESSAGES = {
+  WIN: ['Genius', 'Magnificent', 'Impressive', 'Splendid', 'Great', 'Phew'],
+  NOT_IN_WORD_LIST: 'Not in word list',
+  NOT_ENOUGH_LETTERS: 'Not enough letters',
+};
