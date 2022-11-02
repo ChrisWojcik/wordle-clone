@@ -16,6 +16,5 @@ test('returns the correct number of days between two dates', () => {
 
   const jan1ThisYear = new Date(2022, 0, 1, 0, 0, 0, 0);
   const jan1LastYear = new Date(2021, 0, 1, 0, 0, 0, 0);
-
   expect(daysBetweenTwoDates(jan1ThisYear, jan1LastYear)).toEqual(-365);
 });
