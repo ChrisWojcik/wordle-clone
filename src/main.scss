@@ -230,27 +230,27 @@ main {
       color 0s linear 0.25s;
 
     .game-board__tile:nth-child(2) & {
-      animation-delay: 0.35s, 0.6s;
-      transition: border-color 0s linear 0.6s, background-color 0s linear 0.6s,
-        color 0s linear 0.6s;
+      animation-delay: 0.3s, 0.55s;
+      transition: border-color 0s linear 0.55s, background-color 0s linear 0.55s,
+        color 0s linear 0.55s;
     }
 
     .game-board__tile:nth-child(3) & {
-      animation-delay: 0.7s, 0.95s;
-      transition: border-color 0s linear 0.95s, background-color 0s linear 0.95s,
-        color 0s linear 0.95s;
+      animation-delay: 0.6s, 0.85s;
+      transition: border-color 0s linear 0.85s, background-color 0s linear 0.85s,
+        color 0s linear 0.85s;
     }
 
     .game-board__tile:nth-child(4) & {
-      animation-delay: 1.05s, 1.3s;
-      transition: border-color 0s linear 1.3s, background-color 0s linear 1.3s,
-        color 0s linear 1.3s;
+      animation-delay: 0.9s, 1.15s;
+      transition: border-color 0s linear 1.15s, background-color 0s linear 1.15s,
+        color 0s linear 1.15s;
     }
 
     .game-board__tile:nth-child(5) & {
-      animation-delay: 1.4s, 1.65s;
-      transition: border-color 0s linear 1.65s, background-color 0s linear 1.65s,
-        color 0s linear 1.65s;
+      animation-delay: 1.2s, 1.45s;
+      transition: border-color 0s linear 1.45s, background-color 0s linear 1.45s,
+        color 0s linear 1.45s;
     }
   }
 }
